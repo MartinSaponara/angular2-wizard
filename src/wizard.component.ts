@@ -16,9 +16,9 @@ import { WizardStepComponent } from './wizard-step.component';
       <ng-content></ng-content>
     </div>
     <div class="card-footer" [hidden]="isCompleted">
-        <button type="button" class="btn btn-secondary float-left" (click)="previous()" [hidden]="!hasPrevStep || !activeStep.showPrev">{{previousText}}</button>
-        <button type="button" class="btn btn-secondary float-right" (click)="next()" [disabled]="!activeStep.isValid" [hidden]="!hasNextStep || !activeStep.showNext">{{nextText}}</button>
-        <button type="button" class="btn btn-secondary float-right" (click)="complete()" [disabled]="!activeStep.isValid" [hidden]="hasNextStep">{{doneText}}</button>
+        <button [ngClass]="previousButtonClass" [title]="previousText" type="button" class="float-left" (click)="previous()" [hidden]="!hasPrevStep || !activeStep.showPrev">{{previousText}}</button>
+        <button [ngClass]="nextButtonClass" [title]="nextText" type="button" class="float-right" (click)="next()" [disabled]="!activeStep.isValid" [hidden]="!hasNextStep || !activeStep.showNext">{{nextText}}</button>
+        <button [ngClass]="completeButtonClass" [title]="doneText" type="button" class="float-right" (click)="complete()" [disabled]="!activeStep.isValid" [hidden]="hasNextStep">{{doneText}}</button>
     </div>
   </div>`
   ,
@@ -27,9 +27,9 @@ import { WizardStepComponent } from './wizard-step.component';
     '.card-header { background-color: #fff; padding: 0; font-size: 1.25rem; }',
     '.card-block { overflow-y: auto; }',
     '.card-footer { background-color: #fff; border-top: 0 none; }',
-    '.nav-item { padding: 1rem 0rem; border-bottom: 0.5rem solid #ccc; }',
-    '.active { font-weight: bold; color: black; border-bottom-color: #1976D2 !important; }',
-    '.enabled { cursor: pointer; border-bottom-color: rgb(88, 162, 234); }',
+    '.nav-item a { padding: 1rem 0rem; border-bottom: 0.5rem solid #ccc; display: block; }',
+    '.active a { font-weight: bold; color: black; border-bottom-color: #1976D2 !important; }',
+    '.enabled a { cursor: pointer; border-bottom-color: rgb(88, 162, 234); }',
     '.disabled { color: #ccc; }',
     '.completed { cursor: default; }'
   ]
@@ -43,7 +43,9 @@ export class WizardComponent implements AfterContentInit {
   @Input()  previousText = "Anterior";
   @Input()  nextText = "Siguiente";
   @Input()  doneText = "Enviar";
-
+  @Input()  previousButtonClass = 'btn btn-secondary';
+  @Input()  nextButtonClass = 'btn btn-secondary';
+  @Input()  completeButtonClass = 'btn btn-secondary';
 
   @Output()
   onStepChanged: EventEmitter<WizardStepComponent> = new EventEmitter<WizardStepComponent>();
